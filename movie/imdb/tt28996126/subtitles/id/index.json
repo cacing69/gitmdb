@@ -1,0 +1,19 @@
+[
+    {
+        "provider" : "opensubtitles.org",
+        "name": "Nobody 2 [2025][WEB-DL].ass",
+        "download_link" : null,
+        "download_page" : "https://dl.opensubtitles.org/en/download/sub/13255985"
+    },
+    {
+        "provider" : "opensubtitles.com",
+        "name": "Nobody 2 2025 HDTS RGB HD",
+        "download_link" : "https://www.opensubtitles.com/download/CDE815ACE07C6694793A8124FD28DCF9A4636009CD445B34A10F62B8E6DB5A6996AA5DEFB88969D420F6743414ADE5A8D6408E4F407669721F10995D577B60243DD0745C6B36C6C9BFC4F40F0B88F9DA4F1FFDE74B6019BCBC82E76D778CE051825C60BFC57E3975326764B845F47E313EC59F7A0ECAAA072E659392F830576B4A0713290C978723FAA1F1ECDBBB6D9F01E8E71D824E24A7B21AEE0835AADF0A81EB76087CD9C3E952B62935BF0976FD1BBEC4C0750B7591B5C53C6DCA386330F06604AE67D31CEDEA85995359FA998FBF1BAEB7925FDAFDFC7F0A2D71FF2AA6149614DF40C2CEA58E985893D8F49D8F/subfile/Nobody%202%202025%20HDTS%20RGB.srt",
+        "download_page" : "https://www.opensubtitles.com/en/subtitles/13252358-nobody-2-2025-1080p-amzn-web-dl-ddp5-1-atmos-h-264-byndr"
+    },{
+        "provider" : "sub-scene.com",
+        "name": "Nobody.2.2025.1080p.WEBRip.x264.AAC5.1-[YTS.MX] [Song Ngữ ANH-VIỆT, Machine Translated by ChatGPT AI]",
+        "download_link" : null,
+        "download_page" : "https://sub-scene.com/download/3362227"
+    }
+]
