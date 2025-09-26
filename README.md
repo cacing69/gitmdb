@@ -9,6 +9,7 @@
 This repository can be used as an API by utilizing GitHub's raw file access:
 
 ### GitHub API Key (Recommended)
+
 For better rate limits and reliability, use a GitHub API key:
 
 ```bash
@@ -17,35 +18,38 @@ export GITHUB_TOKEN="your_github_token_here"
 
 # Example API call
 curl -H "Authorization: token $GITHUB_TOKEN" \
-  "https://api.github.com/repos/cacing69/gitmdb/contents/api/movie/imdb/tt28996126/subtitles/id/index.json"
+  "https://api.github.com/repos/cacing69/gitmdb/contents/api/movies/{slug-name}/subtitles/id/index.json"
 ```
 
 ### Raw File Access
+
 Direct access to raw files (limited rate):
 
 ```bash
 # Example raw file URL
-https://raw.githubusercontent.com/username/gitmdb/main/api/movie/imdb/tt28996126/subtitles/id/index.json
+https://raw.githubusercontent.com/cacing69/gitmdb/main/api/movies/{slug-name}/subtitles/id/index.json
 ```
 
 ### Rate Limits
+
 - **Without API key**: 60 requests/hour
-- **With API key**: 5,000 requests/hour 
+- **With API key**: 5,000 requests/hour
 
-## Structure:
+## Structure
 
-- api/movie/{provider_name}/{imdb_id}/subtitles/{language_code}/index.json
-- api/tv/{provider_name}/{imdb_id}/s/{season}/e/{episode}/subtitles/{language_code}/index.json
-- api/alts/{title}.json - Alternative titles and metadata
+- api/movie/{slug-name}/subtitles/{language_code}/index.json
+- api/tv/{slug-name}/s/{season}/e/{episode}/subtitles/{language_code}/index.json
+- api/alts/movies/{imdb_id}.json - Slug name return refer to movies and tv-series
 
-### Parameters:
-- `{provider_name}` - Provider name (e.g., imdb, tmdb, omdb)
-- `{imdb_id}` - IMDB ID (e.g., tt28996126)
+### Parameters
+
+- `{slug-name}` - Slug name
 - `{language_code}` - Language code (see below)
 - `{season}` - Season number (unsigned int, e.g., 1, 2, 3)
 - `{episode}` - Episode number (unsigned int, e.g., 1, 2, 3)
 - `{title}` - Title slug (e.g., el-camino, breaking-bad)
 
-### Language Codes (ISO 639-1) :
+### Language Codes (ISO 639-1)
+
 - `id` - Indonesian
-- `en` - English  
+- `en` - English
