@@ -1,10 +1,10 @@
 import os
 import json
 
-def generate_m3u_entry(series_title, season, episode, urls, logo_url=""):
-    attributes = f'tvg-logo="{logo_url}" group-title="{series_title}"'
+def generate_m3u_entry(display_name, group_title, urls, logo_url=""):
+    attributes = f'tvg-logo="{logo_url}" group-title="{group_title}"'
     url_lines = '\n'.join(urls)
-    return f'\n#EXTINF:-1 {attributes},{series_title} - S{season}E{episode}\n{url_lines}'
+    return f'\n#EXTINF:-1 {attributes},{display_name}\n{url_lines}'
 
 def main():
     script_path = os.path.abspath(__file__)
@@ -20,24 +20,27 @@ def main():
 
     for series_folder in sorted(series_folders):
         series_path = os.path.join(base_path, series_folder)
-        about_file = os.path.join(series_path, 'about.json')
+        series_about_file = os.path.join(series_path, 'about.json')
 
-        if not os.path.exists(about_file):
+        if not os.path.exists(series_about_file):
             continue
 
-        series_title = series_folder
-        cover_url = ""
-        with open(about_file, 'r') as f:
-            try:
+        # Parent series metadata (defaults)
+        parent_clean_title = series_folder
+        parent_title_with_year = series_folder
+        parent_cover_url = ""
+        try:
+            with open(series_about_file, 'r') as f:
                 about_data = json.load(f)
-                series_title = about_data.get('title', series_folder)
+                parent_clean_title = about_data.get('title', series_folder)
+                parent_title_with_year = parent_clean_title
                 year = about_data.get('year')
                 if year:
-                    series_title = f"{series_title} ({year})"
-                cover_url = about_data.get('cover') or ''
-            except json.JSONDecodeError:
-                print(f"Warning: Could not decode JSON from {about_file}")
-                continue
+                    parent_title_with_year = f"{parent_clean_title} ({year})"
+                parent_cover_url = about_data.get('cover') or ''
+        except json.JSONDecodeError:
+            print(f"Warning: Could not decode JSON from {series_about_file}")
+            continue
 
         seasons_path = os.path.join(series_path, 's')
         if not os.path.exists(seasons_path):
@@ -50,6 +53,26 @@ def main():
             
             season_number = season_folder
 
+            # Season-specific metadata (overrides)
+            season_title_with_year = parent_title_with_year
+            season_cover_url = parent_cover_url
+            season_about_file = os.path.join(season_path, 'about.json')
+            if os.path.exists(season_about_file):
+                try:
+                    with open(season_about_file, 'r') as f_season:
+                        season_about_data = json.load(f_season)
+                        # Override title for the season if present
+                        season_title = season_about_data.get('title', parent_clean_title)
+                        season_year = season_about_data.get('year')
+                        if season_year:
+                            season_title_with_year = f"{season_title} ({season_year})"
+                        else:
+                            season_title_with_year = season_title
+                        # Override cover for the season if present
+                        season_cover_url = season_about_data.get('cover') or parent_cover_url
+                except json.JSONDecodeError:
+                    print(f"Warning: Could not decode JSON from {season_about_file}")
+
             episodes_path = os.path.join(season_path, 'e')
             if not os.path.exists(episodes_path):
                 continue
@@ -60,13 +83,27 @@ def main():
                     continue
                 
                 episode_number = episode_folder
-                urls_file = os.path.join(episode_path, 'urls.json')
+                
+                # Determine display name
+                info_file = os.path.join(episode_path, 'info.json')
+                display_name = f"{season_title_with_year} - S{season_number}E{episode_number}"
+                if os.path.exists(info_file):
+                    try:
+                        with open(info_file, 'r') as f_info:
+                            info_data = json.load(f_info)
+                            episode_title = info_data.get('title')
+                            if episode_title:
+                                display_name = f"S{season_number}E{episode_number} - {episode_title}"
+                    except json.JSONDecodeError:
+                        print(f"Warning: Could not decode JSON from {info_file}")
 
+                # Get URLs
+                urls_file = os.path.join(episode_path, 'urls.json')
                 if os.path.exists(urls_file):
                     episode_urls = []
-                    with open(urls_file, 'r') as f:
+                    with open(urls_file, 'r') as f_urls:
                         try:
-                            urls_data = json.load(f)
+                            urls_data = json.load(f_urls)
                             if urls_data and isinstance(urls_data, list):
                                 for url_item in urls_data:
                                     if url_item and isinstance(url_item, dict) and url_item.get('url'):
@@ -75,7 +112,7 @@ def main():
                             print(f"Warning: Could not process {urls_file}. Error: {e}")
                     
                     if episode_urls:
-                        m3u_entry = generate_m3u_entry(series_title, season_number, episode_number, episode_urls, logo_url=cover_url)
+                        m3u_entry = generate_m3u_entry(display_name, parent_clean_title, episode_urls, logo_url=season_cover_url)
                         m3u_content.append(m3u_entry)
 
 

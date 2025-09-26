@@ -4,6 +4,20 @@
 
 > **Note:** Data is very limited, but Pull Requests and contributions are very welcome!
 
+## Playlist
+
+> Movies Playlist
+
+```bash
+https://raw.githubusercontent.com/cacing69/gitmdb/refs/heads/main/movies.m3u
+```
+
+> TV Series Playlist
+
+```bash
+https://raw.githubusercontent.com/cacing69/gitmdb/refs/heads/main/tv-series.m3u
+```
+
 ## API Usage
 
 This repository can be used as an API by utilizing GitHub's raw file access:
