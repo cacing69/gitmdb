@@ -1,5 +1,7 @@
 {
     "type": "movies",
     "title": "Kung Fu Rookiw",
-    "slug": "kung-fu-rookie"
+    "slug": [
+        "kung-fu-rookie"
+    ]
 }

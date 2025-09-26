@@ -46,12 +46,13 @@ def main():
         if not os.path.exists(seasons_path):
             continue
 
-        for season_folder in sorted(os.listdir(seasons_path)):
+        for season_folder in sorted(os.listdir(seasons_path), key=lambda f: int(f) if f.isdigit() else 0):
             season_path = os.path.join(seasons_path, season_folder)
             if not os.path.isdir(season_path):
                 continue
             
             season_number = season_folder
+            group_title_for_season = f"{parent_clean_title} Temporada {season_number}"
 
             # Season-specific metadata (overrides)
             season_title_with_year = parent_title_with_year
@@ -61,13 +62,19 @@ def main():
                 try:
                     with open(season_about_file, 'r') as f_season:
                         season_about_data = json.load(f_season)
-                        # Override title for the season if present
-                        season_title = season_about_data.get('title', parent_clean_title)
+                        
+                        # Use season-specific title for group-title if it exists
+                        season_specific_title = season_about_data.get('title')
+                        if season_specific_title:
+                            group_title_for_season = season_specific_title
+                        
+                        # Override display title for the season if present
+                        season_display_title = season_about_data.get('title', parent_clean_title)
                         season_year = season_about_data.get('year')
                         if season_year:
-                            season_title_with_year = f"{season_title} ({season_year})"
+                            season_title_with_year = f"{season_display_title} ({season_year})"
                         else:
-                            season_title_with_year = season_title
+                            season_title_with_year = season_display_title
                         # Override cover for the season if present
                         season_cover_url = season_about_data.get('cover') or parent_cover_url
                 except json.JSONDecodeError:
@@ -77,7 +84,7 @@ def main():
             if not os.path.exists(episodes_path):
                 continue
 
-            for episode_folder in sorted(os.listdir(episodes_path)):
+            for episode_folder in sorted(os.listdir(episodes_path), key=lambda f: int(f) if f.isdigit() else 0):
                 episode_path = os.path.join(episodes_path, episode_folder)
                 if not os.path.isdir(episode_path):
                     continue
@@ -86,14 +93,14 @@ def main():
                 
                 # Determine display name
                 info_file = os.path.join(episode_path, 'info.json')
-                display_name = f"{season_title_with_year} - S{season_number}E{episode_number}"
+                display_name = f"{parent_clean_title} Temporada {season_number} - S{season_number}E{episode_number}"
                 if os.path.exists(info_file):
                     try:
                         with open(info_file, 'r') as f_info:
                             info_data = json.load(f_info)
                             episode_title = info_data.get('title')
                             if episode_title:
-                                display_name = f"S{season_number}E{episode_number} - {episode_title}"
+                                display_name = f"{display_name} - {episode_title}"
                     except json.JSONDecodeError:
                         print(f"Warning: Could not decode JSON from {info_file}")
 
@@ -112,7 +119,7 @@ def main():
                             print(f"Warning: Could not process {urls_file}. Error: {e}")
                     
                     if episode_urls:
-                        m3u_entry = generate_m3u_entry(display_name, parent_clean_title, episode_urls, logo_url=season_cover_url)
+                        m3u_entry = generate_m3u_entry(display_name, group_title_for_season, episode_urls, logo_url=season_cover_url)
                         m3u_content.append(m3u_entry)
 
 

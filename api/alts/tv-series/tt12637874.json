@@ -1,5 +1,7 @@
 {
     "type": "tv-series",
     "title": "Fallout",
-    "slug": "fallout"
+    "slug": [
+        "fallout"
+    ]
 }

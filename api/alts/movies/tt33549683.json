@@ -1,5 +1,7 @@
 {
     "type": "movies",
     "title": "Love Untangled",
-    "slug": "love-untangled"
+    "slug": [
+        "love-untangled"
+    ]
 }
