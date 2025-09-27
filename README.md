@@ -1,6 +1,6 @@
-# GitMDB - Movie & TV Database
+# M3U-Repo - Movie & TV Database
 
-**GitMDB** is a movie and TV series metadata database organized by available providers like IMDB, TMDB, and others. This database serves as the main source for the **[Pusoo](https://github.com/cacing69/pusoo)** project.
+**M3U-Repo** is a movie and TV series metadata database organized by available providers like IMDB, TMDB, and others. This database serves as the main source for the **[Pusoo](https://github.com/cacing69/pusoo)** project.
 
 > **Note:** Data is very limited, but Pull Requests and contributions are very welcome!
 
@@ -9,13 +9,13 @@
 > Movies Playlist
 
 ```bash
-https://raw.githubusercontent.com/cacing69/gitmdb/refs/heads/main/movies.m3u
+https://raw.githubusercontent.com/cacing69/m3u-repo/refs/heads/main/movies.m3u
 ```
 
 > TV Series Playlist
 
 ```bash
-https://raw.githubusercontent.com/cacing69/gitmdb/refs/heads/main/tv-series.m3u
+https://raw.githubusercontent.com/cacing69/m3u-repo/refs/heads/main/tv-series.m3u
 ```
 
 ## API Usage
@@ -32,7 +32,7 @@ export GITHUB_TOKEN="your_github_token_here"
 
 # Example API call
 curl -H "Authorization: token $GITHUB_TOKEN" \
-  "https://api.github.com/repos/cacing69/gitmdb/contents/api/movies/{slug-name}/subtitles/id/index.json"
+  "https://api.github.com/repos/cacing69/m3u-repo/contents/api/movies/{slug-name}/subtitles/id/index.json"
 ```
 
 ### Raw File Access
@@ -41,7 +41,7 @@ Direct access to raw files (limited rate):
 
 ```bash
 # Example raw file URL
-https://raw.githubusercontent.com/cacing69/gitmdb/main/api/movies/{slug-name}/subtitles/id/index.json
+https://raw.githubusercontent.com/cacing69/m3u-repo/main/api/movies/{slug-name}/subtitles/id/index.json
 ```
 
 ### Rate Limits
