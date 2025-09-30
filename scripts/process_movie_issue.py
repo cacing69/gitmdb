@@ -17,8 +17,11 @@ def parse_movie_issue(issue_body):
 
     # Check if this is from issue form (contains ### format) or old template
     if '### Movie Title' in issue_body or '### Release Year' in issue_body:
-        # Parse GitHub Issue Form format
+        # Parse GitHub Issue Form format (complex)
         return parse_issue_form_movie(issue_body)
+    elif '### Movie Title' in issue_body or 'Movie Title' in issue_body:
+        # Parse simple GitHub Issue Form format
+        return parse_simple_issue_form_movie(issue_body)
     else:
         # Parse old markdown template format
         return parse_markdown_template_movie(issue_body)
@@ -84,6 +87,43 @@ def parse_issue_form_movie(issue_body):
         summary = summary_match.group(1).strip()
         if summary and summary != '_No response_':
             data['summary'] = summary
+
+    return data, urls
+
+def parse_simple_issue_form_movie(issue_body):
+    """Parse movie issue from simple GitHub Issue Form"""
+    data = {}
+    urls = []
+
+    # Extract title (simple format without complex headers)
+    title_match = re.search(r'### Movie Title\s*\n\s*(.+)', issue_body, re.IGNORECASE)
+    if title_match:
+        data['title'] = title_match.group(1).strip()
+
+    # Extract year
+    year_match = re.search(r'### Release Year\s*\n\s*(\d{4})', issue_body, re.IGNORECASE)
+    if year_match:
+        data['year'] = int(year_match.group(1))
+
+    # Extract source
+    source_match = re.search(r'### Source\s*\n\s*(.+)', issue_body, re.IGNORECASE)
+    source = source_match.group(1).strip() if source_match else 'GitHub Issue Simple'
+
+    # Extract URLs from textarea
+    urls_match = re.search(r'### Movie URLs\s*\n\s*(.*?)(?=\n### |$)', issue_body, re.IGNORECASE | re.DOTALL)
+    if urls_match:
+        urls_text = urls_match.group(1).strip()
+        if urls_text and urls_text != '_No response_':
+            lines = urls_text.split('\n')
+            for line in lines:
+                line = line.strip()
+                if line and line.startswith('http'):
+                    urls.append({
+                        'source': source,
+                        'url': line,
+                        'quality': '1080p',
+                        'language': 'en'
+                    })
 
     return data, urls
 

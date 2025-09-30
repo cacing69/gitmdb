@@ -13,8 +13,11 @@ def slugify(text):
 def parse_tv_series_issue(issue_body):
     """Parse TV series issue body and extract information"""
     # Check if this is from issue form (contains ### format) or old template
-    if '### Series Title' in issue_body or '### Release Year' in issue_body:
-        # Parse GitHub Issue Form format
+    if '### Series Title' in issue_body and '### Episode URLs' in issue_body:
+        # Parse simple GitHub Issue Form format
+        return parse_simple_issue_form_tv_series(issue_body)
+    elif '### Series Title' in issue_body or '### Release Year' in issue_body:
+        # Parse GitHub Issue Form format (complex)
         return parse_issue_form_tv_series(issue_body)
     else:
         # Parse old markdown template format
@@ -68,6 +71,54 @@ def parse_issue_form_tv_series(issue_body):
         episodes_text = episodes_match.group(1).strip()
         if episodes_text and episodes_text != '_No response_':
             episodes = parse_episodes_format(episodes_text, source)
+
+    return data, episodes
+
+def parse_simple_issue_form_tv_series(issue_body):
+    """Parse TV series issue from simple GitHub Issue Form"""
+    data = {}
+    episodes = {}
+
+    # Extract title
+    title_match = re.search(r'### Series Title\s*\n\s*(.+)', issue_body, re.IGNORECASE)
+    if title_match:
+        data['title'] = title_match.group(1).strip()
+
+    # Extract year
+    year_match = re.search(r'### Release Year\s*\n\s*(\d{4})', issue_body, re.IGNORECASE)
+    if year_match:
+        data['year'] = int(year_match.group(1))
+
+    # Extract source
+    source_match = re.search(r'### Source\s*\n\s*(.+)', issue_body, re.IGNORECASE)
+    source = source_match.group(1).strip() if source_match else 'GitHub Issue Simple'
+
+    # Extract episode URLs from textarea
+    urls_match = re.search(r'### Episode URLs\s*\n\s*(.*?)(?=\n### |$)', issue_body, re.IGNORECASE | re.DOTALL)
+    if urls_match:
+        urls_text = urls_match.group(1).strip()
+        if urls_text and urls_text != '_No response_':
+            # Simple format: assume all URLs are for Season 1 episodes
+            lines = urls_text.split('\n')
+            episode_num = 1
+            for line in lines:
+                line = line.strip()
+                if line and line.startswith('http'):
+                    season_key = '1'
+                    episode_key = str(episode_num)
+                    
+                    if season_key not in episodes:
+                        episodes[season_key] = {}
+                    if episode_key not in episodes[season_key]:
+                        episodes[season_key][episode_key] = []
+                    
+                    episodes[season_key][episode_key].append({
+                        'source': source,
+                        'url': line,
+                        'quality': '1080p',
+                        'language': 'en'
+                    })
+                    episode_num += 1
 
     return data, episodes
 
