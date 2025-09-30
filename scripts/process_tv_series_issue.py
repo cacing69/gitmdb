@@ -98,27 +98,39 @@ def parse_simple_issue_form_tv_series(issue_body):
     if urls_match:
         urls_text = urls_match.group(1).strip()
         if urls_text and urls_text != '_No response_':
-            # Simple format: assume all URLs are for Season 1 episodes
+            # Parse format: S1E1 https://url or just https://url
             lines = urls_text.split('\n')
             episode_num = 1
             for line in lines:
                 line = line.strip()
-                if line and line.startswith('http'):
-                    season_key = '1'
-                    episode_key = str(episode_num)
+                if line and ('http' in line):
+                    # Check if line has SxEx format
+                    season_episode_match = re.match(r'S(\d+)E(\d+)\s+(https?://\S+)', line, re.IGNORECASE)
+                    if season_episode_match:
+                        season_num = season_episode_match.group(1)
+                        episode_num_parsed = season_episode_match.group(2)
+                        url = season_episode_match.group(3)
+                    else:
+                        # Fallback: assume Season 1, sequential episodes
+                        if line.startswith('http'):
+                            season_num = '1'
+                            episode_num_parsed = str(episode_num)
+                            url = line
+                            episode_num += 1
+                        else:
+                            continue
                     
-                    if season_key not in episodes:
-                        episodes[season_key] = {}
-                    if episode_key not in episodes[season_key]:
-                        episodes[season_key][episode_key] = []
+                    if season_num not in episodes:
+                        episodes[season_num] = {}
+                    if episode_num_parsed not in episodes[season_num]:
+                        episodes[season_num][episode_num_parsed] = []
                     
-                    episodes[season_key][episode_key].append({
+                    episodes[season_num][episode_num_parsed].append({
                         'source': source,
-                        'url': line,
+                        'url': url,
                         'quality': '1080p',
                         'language': 'en'
                     })
-                    episode_num += 1
 
     return data, episodes
 
