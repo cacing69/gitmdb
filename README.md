@@ -2,9 +2,73 @@
 
 **M3U-Repo** is a movie and TV series metadata database organized by available providers like IMDB, TMDB, and others. This database serves as the main source for the **[Pusoo](https://github.com/cacing69/pusoo)** project.
 
+## Easy Contributing
+
+Want to add content? It's super easy! Just create an issue with our interactive forms:
+
+**Add Movie:**
+- [Interactive Form](../../issues/new?template=add-movie-form.yml) - Easy form with input fields
+- [With Examples](../../issues/new?template=add-movie.md&title=[ADD-MOVIE]%20Movie%20Title%20(Year)) - Shows example data to guide you
+- [Blank Template](../../issues/new?template=add-movie-blank.md&title=[ADD-MOVIE]%20Movie%20Title%20(Year)) - Empty form to fill
+
+**Add TV Series:**
+- [Interactive Form](../../issues/new?template=add-tv-series-form.yml) - Easy form with input fields
+- [With Examples](../../issues/new?template=add-tv-series.md&title=[ADD-TV-SERIES]%20Series%20Title%20(Year)) - Shows example data
+- [Blank Template](../../issues/new?template=add-tv-series-blank.md&title=[ADD-TV-SERIES]%20Series%20Title%20(Year)) - Empty form
+
+**Add Alternative URLs:**
+- [Interactive Form](../../issues/new?template=add-alternative-urls-form.yml) - Easy form for adding backup links
+- [Template Form](../../issues/new?template=add-alternative-urls.md&title=[ADD-ALT-URLS]%20Content%20Title) - Template format
+
+Fill out the form, submit the issue, and our automation will handle the rest!
+
+### Super Simple Format
+
+**For Movies**: Just need title, year, and streaming URL
+**For TV Series**: Just need title, year, and episode URLs like this:
+
+```
+### Season 1
+#### Episodes
+**URLs:**
+- url episode 1
+- url episode 2
+```
+
+**For Alternative URLs**: Add backup links to existing content anytime!
+
 > **Note:** Data is very limited, but Pull Requests and contributions are very welcome!
 
+## How It Works
+
+### Automated Contribution Process
+
+1. **Create Issue**: Use our templates to create an issue for adding movies or TV series
+2. **Fill Template**: Provide title, year, streaming URLs, and optional metadata
+3. **Submit**: GitHub Actions automatically processes your issue
+4. **Done**: Content is added to the repository and M3U playlists are updated
+
+### For TV Series
+
+When adding TV series, you can include multiple seasons and episodes:
+
+```
+### Season 1
+
+#### Episode 1
+**URLs:**
+- Primary: https://your-streaming-link.com/s01e01.mp4
+- Alternative: https://backup-link.com/s01e01.mp4
+
+#### Episode 2
+**URLs:**
+- Primary: https://your-streaming-link.com/s01e02.mp4
+```
+
+The system will automatically create the proper folder structure
+
 ## Playlist
+```
 
 > Movies Playlist
 

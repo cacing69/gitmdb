@@ -1,0 +1,173 @@
+name: Process Content Issues
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  process-movie-issue:
+    if: contains(github.event.issue.title, '[ADD-MOVIE]')
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4
+        
+    - name: Process movie issue
+      run: |
+        python scripts/process_movie_issue.py "${{ github.event.issue.number }}" "${{ github.event.issue.body }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Generate M3U files
+      run: |
+        python scripts/generate_movies_m3u.py
+        
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git diff --staged --quiet || git commit -m "Add movie from issue #${{ github.event.issue.number }}"
+        git push
+        
+    - name: Close issue with success message
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: 'Movie has been successfully added to the repository! 🎬\n\nThe M3U playlist has been updated automatically.'
+          });
+          
+          github.rest.issues.update({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'closed',
+            labels: ['processed', 'movie-added']
+          });
+
+  process-tv-series-issue:
+    if: contains(github.event.issue.title, '[ADD-TV-SERIES]')
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4
+        
+    - name: Process TV series issue
+      run: |
+        python scripts/process_tv_series_issue.py "${{ github.event.issue.number }}" "${{ github.event.issue.body }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Generate M3U files
+      run: |
+        python scripts/generate_tv_series_m3u.py
+        
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git diff --staged --quiet || git commit -m "Add TV series from issue #${{ github.event.issue.number }}"
+        git push
+        
+    - name: Close issue with success message
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: 'TV series has been successfully added to the repository! 📺\n\nThe M3U playlist has been updated automatically.'
+          });
+          
+          github.rest.issues.update({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'closed',
+            labels: ['processed', 'tv-series-added']
+          });
+
+  process-alternative-urls-issue:
+    if: contains(github.event.issue.title, '[ADD-ALT-URLS]')
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Process alternative URLs issue
+      run: |
+        python scripts/process_alternative_urls_issue.py "${{ github.event.issue.number }}" "${{ github.event.issue.body }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Generate M3U files
+      run: |
+        python scripts/generate_movies_m3u.py
+        python scripts/generate_tv_series_m3u.py
+        
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git diff --staged --quiet || git commit -m "Add alternative URLs from issue #${{ github.event.issue.number }}"
+        git push
+        
+    - name: Close issue with success message
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: 'Alternative URLs have been successfully added! 🔗\n\nThe M3U playlists have been updated automatically.'
+          });
+          
+          github.rest.issues.update({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'closed',
+            labels: ['processed', 'alternative-urls-added']
+          });
