@@ -1,7 +1,8 @@
-name: Add Movie
-description: Add a new movie to the repository
-title: "[ADD-MOVIE] Movie Title (Year)"
+name: "Add Movie (Interactive Form)"
+description: "Add a new movie with interactive form fields"
+title: "[ADD-MOVIE] "
 labels: ["add-movie", "content"]
+assignees: []
 body:
   - type: markdown
     attributes:

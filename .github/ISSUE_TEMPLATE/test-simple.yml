@@ -1,0 +1,7 @@
+name: Test Template
+description: Simple test template
+body:
+  - type: input
+    attributes:
+      label: Test Field
+      description: This is a test

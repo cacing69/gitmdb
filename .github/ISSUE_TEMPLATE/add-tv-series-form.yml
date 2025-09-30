@@ -1,7 +1,8 @@
-name: Add TV Series
-description: Add a new TV series with episodes to the repository
-title: "[ADD-TV-SERIES] Series Title (Year)"
+name: "Add TV Series (Interactive Form)"
+description: "Add a new TV series with interactive form fields"
+title: "[ADD-TV-SERIES] "
 labels: ["add-tv-series", "content"]
+assignees: []
 body:
   - type: markdown
     attributes:
