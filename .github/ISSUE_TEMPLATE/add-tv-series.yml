@@ -1,4 +1,4 @@
-name: Add TV Series Simple
+name: Add TV Series
 description: Add a new TV series to the repository
 body:
   - type: input

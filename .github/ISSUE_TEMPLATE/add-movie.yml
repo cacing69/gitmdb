@@ -1,4 +1,4 @@
-name: Add Movie Simple
+name: Add Movie
 description: Add a new movie to the repository
 body:
   - type: input
