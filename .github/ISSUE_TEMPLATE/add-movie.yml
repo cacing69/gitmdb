@@ -5,15 +5,22 @@ body:
     attributes:
       label: Movie Title
       description: Enter the full title of the movie
+      placeholder: e.g., Avatar: The Way of Water
   - type: input
     attributes:
       label: Release Year
       description: Enter the year the movie was released
+      placeholder: e.g., 2022
   - type: input
     attributes:
       label: Source
       description: Where did you get this movie? (e.g., Netflix, Disney+)
+      placeholder: e.g., Netflix
   - type: textarea
     attributes:
       label: Movie URLs
       description: Enter streaming URLs (one per line)
+      placeholder: |
+        https://example.com/movie1.m3u8
+        https://example.com/movie2.mp4
+        https://example.com/movie3.mkv
