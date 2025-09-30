@@ -22,11 +22,11 @@ def validate_json_file(file_path):
 def validate_movie_structure(movie_path):
     """Validate movie folder structure"""
     errors = []
-    
+
     # Check required files
     about_file = os.path.join(movie_path, 'about.json')
     urls_file = os.path.join(movie_path, 'urls.json')
-    
+
     if not os.path.exists(about_file):
         errors.append(f"Missing about.json in {movie_path}")
     else:
@@ -39,7 +39,7 @@ def validate_movie_structure(movie_path):
                 data = json.load(f)
                 if 'title' not in data:
                     errors.append(f"Missing 'title' field in {about_file}")
-    
+
     if not os.path.exists(urls_file):
         errors.append(f"Missing urls.json in {movie_path}")
     else:
@@ -54,13 +54,13 @@ def validate_movie_structure(movie_path):
                     errors.append(f"urls.json should be a list in {movie_path}")
                 elif len(data) == 0:
                     errors.append(f"urls.json is empty in {movie_path}")
-    
+
     return errors
 
 def validate_tv_series_structure(series_path):
     """Validate TV series folder structure"""
     errors = []
-    
+
     # Check about.json
     about_file = os.path.join(series_path, 'about.json')
     if not os.path.exists(about_file):
@@ -69,7 +69,7 @@ def validate_tv_series_structure(series_path):
         valid, error = validate_json_file(about_file)
         if not valid:
             errors.append(f"Invalid about.json in {series_path}: {error}")
-    
+
     # Check seasons structure
     seasons_path = os.path.join(series_path, 's')
     if os.path.exists(seasons_path):
@@ -86,20 +86,20 @@ def validate_tv_series_structure(series_path):
                                 valid, error = validate_json_file(urls_file)
                                 if not valid:
                                     errors.append(f"Invalid urls.json in {urls_file}: {error}")
-    
+
     return errors
 
 def main():
     """Main validation function"""
     repo_root = Path(__file__).parent.parent
     api_path = repo_root / 'api'
-    
+
     if not api_path.exists():
         print("Error: api folder not found")
         sys.exit(1)
-    
+
     total_errors = 0
-    
+
     # Validate movies
     movies_path = api_path / 'movies'
     if movies_path.exists():
@@ -114,7 +114,7 @@ def main():
                     total_errors += len(errors)
                 else:
                     print(f"  ✓ {movie_dir.name}")
-    
+
     # Validate TV series
     tv_series_path = api_path / 'tv-series'
     if tv_series_path.exists():
@@ -129,10 +129,10 @@ def main():
                     total_errors += len(errors)
                 else:
                     print(f"  ✓ {series_dir.name}")
-    
+
     # Summary
     print(f"\nValidation complete. Total errors: {total_errors}")
-    
+
     if total_errors > 0:
         sys.exit(1)
     else:

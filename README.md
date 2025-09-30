@@ -4,30 +4,14 @@
 
 ## Easy Contributing
 
-Want to add content? It's super easy! Just create an issue with our interactive forms:
-
-**Add Movie:**
-- [Interactive Form](../../issues/new?template=add-movie-form.yml) - Easy form with input fields
-- [With Examples](../../issues/new?template=add-movie.md&title=[ADD-MOVIE]%20Movie%20Title%20(Year)) - Shows example data to guide you
-- [Blank Template](../../issues/new?template=add-movie-blank.md&title=[ADD-MOVIE]%20Movie%20Title%20(Year)) - Empty form to fill
-
-**Add TV Series:**
-- [Interactive Form](../../issues/new?template=add-tv-series-form.yml) - Easy form with input fields
-- [With Examples](../../issues/new?template=add-tv-series.md&title=[ADD-TV-SERIES]%20Series%20Title%20(Year)) - Shows example data
-- [Blank Template](../../issues/new?template=add-tv-series-blank.md&title=[ADD-TV-SERIES]%20Series%20Title%20(Year)) - Empty form
-
-**Add Alternative URLs:**
-- [Interactive Form](../../issues/new?template=add-alternative-urls-form.yml) - Easy form for adding backup links
-- [Template Form](../../issues/new?template=add-alternative-urls.md&title=[ADD-ALT-URLS]%20Content%20Title) - Template format
-
-Fill out the form, submit the issue, and our automation will handle the rest!
+Want to add content? It's super easy! Just create an issue with interactive forms
 
 ### Super Simple Format
 
 **For Movies**: Just need title, year, and streaming URL
 **For TV Series**: Just need title, year, and episode URLs like this:
 
-```
+```md
 ### Season 1
 #### Episodes
 **URLs:**
@@ -52,7 +36,7 @@ Fill out the form, submit the issue, and our automation will handle the rest!
 
 When adding TV series, you can include multiple seasons and episodes:
 
-```
+```md
 ### Season 1
 
 #### Episode 1
@@ -68,7 +52,6 @@ When adding TV series, you can include multiple seasons and episodes:
 The system will automatically create the proper folder structure
 
 ## Playlist
-```
 
 > Movies Playlist
 
