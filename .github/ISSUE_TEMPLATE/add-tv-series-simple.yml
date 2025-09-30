@@ -1,0 +1,19 @@
+name: Add TV Series Simple
+description: Add a new TV series to the repository
+body:
+  - type: input
+    attributes:
+      label: Series Title
+      description: Enter the full title of the TV series
+  - type: input
+    attributes:
+      label: Release Year
+      description: Enter the year the series started
+  - type: input
+    attributes:
+      label: Source
+      description: Where did you get this series? (e.g., Netflix, Disney+)
+  - type: textarea
+    attributes:
+      label: Episode URLs
+      description: Enter streaming URLs for episodes (one per line)

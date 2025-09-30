@@ -1,0 +1,19 @@
+name: Add Movie Simple
+description: Add a new movie to the repository
+body:
+  - type: input
+    attributes:
+      label: Movie Title
+      description: Enter the full title of the movie
+  - type: input
+    attributes:
+      label: Release Year
+      description: Enter the year the movie was released
+  - type: input
+    attributes:
+      label: Source
+      description: Where did you get this movie? (e.g., Netflix, Disney+)
+  - type: textarea
+    attributes:
+      label: Movie URLs
+      description: Enter streaming URLs (one per line)
