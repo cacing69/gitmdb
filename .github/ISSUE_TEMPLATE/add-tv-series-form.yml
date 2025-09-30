@@ -1,13 +1,10 @@
-name: "Add TV Series (Interactive Form)"
-description: "Add a new TV series with interactive form fields"
-title: "[ADD-TV-SERIES] "
-labels: ["add-tv-series", "content"]
-assignees: []
+name: Add TV Series
+description: Add a new TV series to the repository
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for contributing! Please fill out the form below to add a new TV series.
+        **[ADD-TV-SERIES]** Thanks for contributing! Please fill out the form below to add a new TV series.
 
   - type: input
     id: series-title

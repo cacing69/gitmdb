@@ -1,13 +1,10 @@
-name: "Add Movie (Interactive Form)"
-description: "Add a new movie with interactive form fields"
-title: "[ADD-MOVIE] "
-labels: ["add-movie", "content"]
-assignees: []
+name: Add Movie
+description: Add a new movie to the repository
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for contributing! Please fill out the form below to add a new movie.
+        **[ADD-MOVIE]** Thanks for contributing! Please fill out the form below to add a new movie.
 
   - type: input
     id: movie-title
